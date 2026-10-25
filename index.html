@@ -55,24 +55,26 @@
 
 <body id="top" class="bg-obsidian text-platinum antialiased selection:bg-amethyst selection:text-white">
 
-    <!-- Navbar -->
+  <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-obsidian/90 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="#top" class="flex items-center space-x-3 group transition-transform duration-200 hover:scale-[1.02]">
-                <img src="1792832289204.jpg" alt="DARONITY logo" class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover ring-1 ring-roseGold/40 shadow-lg shadow-amethyst/20 bg-surface/60 transition-all duration-200 group-hover:ring-roseGold/70">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-roseGold to-amethyst flex items-center justify-center font-black text-obsidian text-xl glow-border">D</div>
                 <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-roseGold via-platinum to-amethyst bg-clip-text text-transparent">DARONITY</span>
-            </a>
-
+            </div>
+            
+            <!-- 1. MENU ORDINATEUR -->
             <div class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide">
                 <a href="#about" class="hover:text-roseGold transition-colors">L'HISTOIRE</a>
                 <a href="#roster" class="hover:text-roseGold transition-colors">ROSTER</a>
+                <!-- AJOUT ICI -->
+                <a href="battle.html" class="text-roseGold hover:text-amethyst transition-colors">BATTLES</a>
                 <a href="#stats" class="hover:text-roseGold transition-colors">STATS & LÉGENDES</a>
-                <a href="#contact" class="hover:text-roseGold transition-colors">BATTLE / CONTACT</a>
+                <a href="#contact" class="hover:text-roseGold transition-colors">SCRIM / CONTACT</a>
             </div>
 
             <div class="flex items-center space-x-4">
-                <a href="#contact" class="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest bg-gradient-to-r from-roseGold to-amethyst text-obsidian hover:opacity-90 transition-all shadow-lg shadow-roseGold/20">
-                    <i class="fa-solid fa-crosshairs mr-2"></i>
+                <a href="#contact" class="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest bg-gradient-to-r from-roseGold to-amethyst text-obsidian hover:opacity-90 transition transform hover:scale-105 shadow-lg">
                     Défier l'équipe
                 </a>
                 <button id="mobile-menu-btn" class="md:hidden text-platinum focus:outline-none text-xl p-2">
@@ -81,14 +83,16 @@
             </div>
         </div>
 
+        <!-- 2. MENU MOBILE (Téléphone) -->
         <div id="mobile-menu" class="hidden md:hidden bg-surface border-b border-white/10 px-6 py-4 space-y-3">
             <a href="#about" class="block py-2 text-sm font-semibold hover:text-roseGold">L'HISTOIRE</a>
             <a href="#roster" class="block py-2 text-sm font-semibold hover:text-roseGold">ROSTER</a>
+            <!-- AJOUT ICI -->
+            <a href="battle.html" class="block py-2 text-sm font-bold text-roseGold">BATTLES</a>
             <a href="#stats" class="block py-2 text-sm font-semibold hover:text-roseGold">STATS & LÉGENDES</a>
-            <a href="#contact" class="block py-2 text-sm font-semibold hover:text-roseGold">BATTLE / CONTACT</a>
+            <a href="#contact" class="block py-2 text-sm font-semibold hover:text-roseGold">SCRIM / CONTACT</a>
         </div>
     </nav>
-
     <!-- Banner -->
     <section class="pt-28 pb-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
