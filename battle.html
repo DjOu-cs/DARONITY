@@ -174,21 +174,186 @@
         menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
         // =========================================================================
-        // IMAGES DE FOND AUTOMATIQUES PAR MAP CS2
-        // (Tu peux aussi remplacer un lien par "maps/mirage.jpg" si tu préfères
-        // héberger tes propres images dans un dossier maps/ sur ton GitHub)
+        // IMAGES DE FOND OFFICIELLES DES MAPS CS2 (Hébergées sur GitHub CDN fiable)
         // =========================================================================
         const mapBackgrounds = {
-            "mirage": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_mirage.png",
-            "inferno": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_inferno.png",
-            "dust2": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_dust2.png",
-            "anubis": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_anubis.png",
-            "ancient": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_ancient.png",
-            "nuke": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_nuke.png",
-            "vertigo": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_vertigo.png",
-            "overpass": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_overpass.png",
-            "train": "https://cdn.cloudflare.steamstatic.com/apps/csgo/images/csgo_react/map_overviews/de_train.png"
+            "mirage": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_mirage.png",
+            "inferno": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_inferno.png",
+            "dust2": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_dust2.png",
+            "anubis": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_anubis.png",
+            "ancient": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_ancient.png",
+            "nuke": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_nuke.png",
+            "vertigo": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_vertigo.png",
+            "overpass": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_overpass.png",
+            "train": "https://raw.githubusercontent.com/ghostcap-gaming/cs2-map-images/main/cs2/de_train.png"
         };
+
+        // =========================================================================
+        // LISTE DES MATCHS DARONITY (Modifie ou ajoute tes matchs ici !)
+        // =========================================================================
+        const matchesData = [
+            {
+                result: "win",
+                date: "24 Oct 2026",
+                opponent: "Youngsters FC",
+                map: "de_mirage",
+                scoreUs: 13,
+                scoreThem: 9,
+                lineup: ["Boomer_CS", "Kro_Gamer", "Dad_Joke", "Akiza_off", "Papy_Frag"],
+                screenshot: "screens/match1.jpg"
+            },
+            {
+                result: "loss",
+                date: "19 Oct 2026",
+                opponent: "Les Insomnies",
+                map: "de_inferno",
+                scoreUs: 11,
+                scoreThem: 13,
+                lineup: ["Boomer_CS", "Kro_Gamer", "Dad_Joke", "Akiza_off", "Papy_Frag"],
+                screenshot: "screens/match2.jpg"
+            },
+            {
+                result: "win",
+                date: "12 Oct 2026",
+                opponent: "Rush B Cyka",
+                map: "de_dust2",
+                scoreUs: 13,
+                scoreThem: 4,
+                lineup: ["Boomer_CS", "Kro_Gamer", "Dad_Joke", "Akiza_off", "Papy_Frag"],
+                screenshot: ""
+            }
+        ];
+
+        function getMapImage(mapName, customBg) {
+            if (customBg) return customBg;
+            const cleanKey = mapName.toLowerCase().replace('de_', '').replace('cs_', '').trim();
+            return mapBackgrounds[cleanKey] || "";
+        }
+
+        // =========================================================================
+        // MOTEUR D'AFFICHAGE AUTOMATIQUE
+        // =========================================================================
+        const matchListEl = document.getElementById('match-list');
+
+        function renderMatches(filter = 'all') {
+            matchListEl.innerHTML = '';
+            const filtered = matchesData.filter(m => filter === 'all' ? true : m.result === filter);
+
+            filtered.forEach(match => {
+                const isWin = match.result === 'win';
+                
+                const borderAccent = isWin ? 'border-l-4 border-l-emerald-400' : 'border-l-4 border-l-rose-500';
+                const badgeClass = isWin 
+                    ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' 
+                    : 'bg-rose-500/20 text-rose-400 border-rose-500/40';
+                const badgeText = isWin ? 'VICTOIRE' : 'DÉFAITE';
+                const scoreUsColor = isWin ? 'text-emerald-400' : 'text-rose-400';
+
+                const bgUrl = getMapImage(match.map, match.mapImage);
+                const cleanMapTitle = match.map.replace('de_', '').toUpperCase();
+
+                const lineupHTML = match.lineup.map(player => 
+                    `<span class="px-2.5 py-1 rounded-lg bg-obsidian/85 backdrop-blur-md border border-white/15 text-xs font-semibold text-platinum">${player}</span>`
+                ).join('');
+
+                const screenBtnHTML = match.screenshot
+                    ? `<button onclick="openModal('${match.screenshot}', 'DARONITY vs ${match.opponent} (${match.map})')" class="w-full lg:w-auto inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-obsidian/90 backdrop-blur-md border border-roseGold/50 text-roseGold hover:bg-roseGold hover:text-obsidian font-bold text-xs uppercase tracking-wider transition shadow-lg">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Voir Screen</span>
+                       </button>`
+                    : `<span class="text-xs text-platinum/50 italic">Pas de screen</span>`;
+
+                const card = document.createElement('div');
+                card.className = `relative overflow-hidden bg-surface rounded-2xl border border-white/10 ${borderAccent} p-6 glow-box transition duration-300 group`;
+                card.innerHTML = `
+                    <!-- Image de la Map en Fond (Bien visible !) -->
+                    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                        ${bgUrl ? `<img src="${bgUrl}" alt="${match.map}" class="w-full h-full object-cover object-center opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500">` : ''}
+                        <div class="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-obsidian/55 to-obsidian/85"></div>
+                        <span class="absolute right-4 -bottom-6 text-7xl sm:text-8xl font-black text-white/[0.07] uppercase tracking-tighter select-none group-hover:text-roseGold/[0.12] transition-colors">
+                            ${cleanMapTitle}
+                        </span>
+                    </div>
+
+                    <!-- Contenu de la carte -->
+                    <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                        <div class="flex lg:flex-col items-center lg:items-start justify-between w-full lg:w-32 gap-2">
+                            <span class="px-3 py-1 rounded-lg border text-xs font-black tracking-widest uppercase backdrop-blur-md ${badgeClass}">
+                                ${badgeText}
+                            </span>
+                            <span class="text-xs text-platinum/80 font-medium drop-shadow">
+                                <i class="fa-regular fa-calendar mr-1 text-roseGold"></i>${match.date}
+                            </span>
+                        </div>
+
+                        <div class="flex-1">
+                            <div class="inline-flex items-center px-2.5 py-0.5 rounded-md bg-obsidian/80 backdrop-blur-md border border-amethyst/40 text-xs font-bold uppercase tracking-widest text-amethyst mb-1.5">
+                                <i class="fa-solid fa-map-location-dot mr-1.5"></i>${match.map}
+                            </div>
+                            <div class="text-xl sm:text-2xl font-black text-white drop-shadow-md">
+                                DARONITY <span class="text-roseGold font-normal text-sm mx-1">vs</span> ${match.opponent}
+                            </div>
+                        </div>
+
+                        <div class="bg-obsidian/85 backdrop-blur-md border border-white/20 rounded-xl px-5 py-2.5 text-center min-w-[120px] self-center shadow-xl">
+                            <div class="text-2xl sm:text-3xl font-black tracking-wider">
+                                <span class="${scoreUsColor}">${match.scoreUs}</span>
+                                <span class="text-platinum/40 mx-1">:</span>
+                                <span class="text-platinum/80">${match.scoreThem}</span>
+                            </div>
+                        </div>
+
+                        <div class="w-full lg:w-72">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-platinum/80 drop-shadow mb-2">Lineup alignée</div>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${lineupHTML}
+                            </div>
+                        </div>
+
+                        <div class="w-full lg:w-36 flex justify-end">
+                            ${screenBtnHTML}
+                        </div>
+                    </div>
+                `;
+                matchListEl.appendChild(card);
+            });
+        }
+
+        function updateStats() {
+            const total = matchesData.length;
+            const wins = matchesData.filter(m => m.result === 'win').length;
+            const losses = total - wins;
+            const winrate = total > 0 ? Math.round((wins / total) * 100) : 0;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-wins').innerText = wins;
+            document.getElementById('stat-losses').innerText = losses;
+            document.getElementById('stat-winrate').innerText = winrate + '%';
+        }
+
+        function filterMatches(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = "filter-btn px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest transition bg-surface border border-white/10 text-platinum/70 hover:text-platinum hover:border-roseGold/40";
+            });
+            btn.className = "filter-btn active px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest transition bg-gradient-to-r from-roseGold to-amethyst text-obsidian shadow-lg";
+            renderMatches(type);
+        }
+
+        function openModal(imgSrc, title) {
+            document.getElementById('modal-img').src = imgSrc;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('screen-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('screen-modal').classList.add('hidden');
+            document.getElementById('modal-img').src = '';
+        }
+
+        // Initialisation
+        updateStats();
+        renderMatches();
+    </script>
 
         // =========================================================================
         // LISTE DES MATCHS DARONITY (Modifie ou ajoute tes matchs ici !)
